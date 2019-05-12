@@ -108,10 +108,15 @@ class PokemonController {
 				completion(.failure(error))
 				return
 			}
-			guard let data = data else { return }
-			print(data)
-			let image = UIImage(data: data)
-			completion(.success(image!))
+			
+			guard 	let data = data,
+					let image = UIImage(data: data) else {
+				print("Error Converting data to image.")
+				completion(.failure(NSError()))
+				return
+			}
+			
+			completion(.success(image))
 		}.resume()
 	}
 

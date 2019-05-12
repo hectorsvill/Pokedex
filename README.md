@@ -16,11 +16,14 @@ func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>)
 			return
 		}
 		
-		guard let data = data else { return }
+		guard 	let data = data,
+				let image = UIImage(data: data) else {
+			print("Error Converting data to image.")
+			completion(.failure(NSError()))
+			return
+		}
 		
-		print(data)
-		let image = UIImage(data: data)
-		completion(.success(image!))
+		completion(.success(image))
 	}.resume()
 }
 ```
