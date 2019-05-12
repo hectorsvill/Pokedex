@@ -100,21 +100,21 @@ class PokeController {
 		}.resume()
 	}
 												//@escaping (Result<[UIImage, Error]>) -> Void
-	func fetchImage(with url: String, completion: @escaping (Error?) -> ()) {
+	func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>) -> ()){	//@escaping (Error?) -> ()) {
 		let imageurl = URL(string: url)!
 		var request = URLRequest(url: imageurl)
 		request.httpMethod = "GET"
 		
 		URLSession.shared.dataTask(with: request) { (data, _, error) in
 			if let error = error {
-				completion(error)
+				completion(.failure(error))
 				return
 			}
 			guard let data = data else { return }
 			print(data)
 			let image = UIImage(data: data)
-			self.currentImage = image
-			completion(nil)
+//			self.currentImage = image
+			completion(.success(image!))
 		}.resume()
 	}
 

@@ -57,14 +57,11 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		
 		setupLabels(pokemon)
 		
-		pokeController?.fetchImage(with: pokemon.sprites.front_default, completion: { (error) in
-			if let error = error {
-				print("error: \(error)")
-				return
-			}
-			
-			DispatchQueue.main.async {
-				self.pokeImageView.image = self.pokeController?.currentImage
+		pokeController?.fetchImage(with: pokemon.sprites.front_default, completion: { (result) in
+			if let image = try? result.get() {
+				DispatchQueue.main.async {
+					self.pokeImageView?.image = image
+				}
 			}
 			
 		})
