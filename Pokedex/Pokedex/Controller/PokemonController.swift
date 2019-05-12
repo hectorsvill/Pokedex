@@ -117,5 +117,4 @@ class PokemonController {
 
 	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
 	private(set) var pokemons: [Pokemon] = []
-	private(set) var currentPokemon: Pokemon? = nil
 }
