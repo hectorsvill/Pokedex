@@ -58,7 +58,7 @@ class PokemonController {
 		saveToPersistentStore()
 	}
 	
-	func fetchPokemonData(_ name: String, completion: @escaping (Error?) -> ()){
+	func fetchPokemonData(_ name: String, completion: @escaping (Result<Pokemon, Error>) -> ()){
 		let url = baseUrl.appendingPathComponent(name)
 
 		var request = URLRequest(url: url)
@@ -75,13 +75,13 @@ class PokemonController {
 			
 			if let error = error {
 				print("error: \(error)")
-				completion(error)
+				completion(.failure(error))
 				return
 			}
 			
 			guard let data = data else {
 				print("error fetching Data")
-				completion(nil)
+				completion(.failure(NSError()))
 				return
 			}
 			
@@ -89,18 +89,16 @@ class PokemonController {
 			let pokemon: Pokemon
 			do {
 				pokemon = try decoder.decode(Pokemon.self, from: data)
-				print(pokemon.name, pokemon.id)
-				self.currentPokemon = pokemon
 			} catch {
 				print("error decoding pokemon")
-				completion(error)
+				completion(.failure(error))
 				return
 			}
-			completion(nil)
+			completion(.success(pokemon))
 		}.resume()
 	}
-												//@escaping (Result<[UIImage, Error]>) -> Void
-	func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>) -> ()){	//@escaping (Error?) -> ()) {
+	
+	func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>) -> ()){
 		let imageurl = URL(string: url)!
 		var request = URLRequest(url: imageurl)
 		request.httpMethod = "GET"
@@ -113,7 +111,6 @@ class PokemonController {
 			guard let data = data else { return }
 			print(data)
 			let image = UIImage(data: data)
-//			self.currentImage = image
 			completion(.success(image!))
 		}.resume()
 	}
@@ -121,5 +118,4 @@ class PokemonController {
 	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
 	private(set) var pokemons: [Pokemon] = []
 	private(set) var currentPokemon: Pokemon? = nil
-	private(set) var currentImage: UIImage? = nil
 }
