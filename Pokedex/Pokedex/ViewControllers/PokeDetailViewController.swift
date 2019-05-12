@@ -12,7 +12,7 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		setupViews()
+		
 	}
 	
     override func viewDidLoad() {

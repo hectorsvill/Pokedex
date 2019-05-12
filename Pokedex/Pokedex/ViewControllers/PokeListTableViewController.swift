@@ -49,18 +49,13 @@ class PokeListTableViewController: UITableViewController {
 				let indexpath = tableView.indexPath(for: cell)	else { return }
 			
 			let pokemon = pokeController.pokemons[indexpath.row]
-//			pokeController.fetchImage(with: pokemon.sprites.front_default) { error in
-//				if let error = error {
-//					print(error)
-//					return
-//				}
-//				
-//				DispatchQueue.main.async {
-//					vc.pokeImageView.image = self.pokeController.currentImage
-//				}
-//			}
-//			
-//			vc.pokemon = pokemon
+			pokeController.fetchImage(with: pokemon.sprites.front_default, completion: { (result) in
+				guard let image = try? result.get() else { return }
+				DispatchQueue.main.async {
+					vc.pokeImageView.image = image
+				}
+			})
+			vc.pokemon = pokemon
 		}
 	}
 	
