@@ -14,6 +14,7 @@ class Pokemon: Codable, Equatable {
 		return lhs.id == rhs.id
 	}
 	
+//	let spriteImage: Data
 	let sprites: SpriteList
 	let abilities: [Abilities]
 	let types: [Type]

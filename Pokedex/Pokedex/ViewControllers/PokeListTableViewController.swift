@@ -17,22 +17,22 @@ class PokeListTableViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		pokeController.loadFromPersistentStore()
+		pokemonController.loadFromPersistentStore()
     }
 
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return pokeController.pokemons.count
+		return pokemonController.pokemons.count
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath)
-		cell.textLabel?.text = pokeController.pokemons[indexPath.row].name
+		cell.textLabel?.text = pokemonController.pokemons[indexPath.row].name
 		return cell
 	}
 	
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		let delete = UITableViewRowAction(style: .destructive, title: "delete") { (action, indexpath) in
-			self.pokeController.deletePokemon(indexPath.row)
+			self.pokemonController.deletePokemon(indexPath.row)
 			self.tableView.reloadData()
 		}
 		return [delete]
@@ -41,23 +41,27 @@ class PokeListTableViewController: UITableViewController {
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "GetPokemonSegue" {
 			guard let vc = segue.destination as? PokeDetailViewController else { return }
-			vc.pokeController = pokeController
+			vc.pokemonController = pokemonController
 		} else if segue.identifier == "PokemonCellSegue" {
 			
 			guard let vc = segue.destination as? PokeDetailViewController,
 				let cell = sender as? UITableViewCell,
 				let indexpath = tableView.indexPath(for: cell)	else { return }
 			
-			let pokemon = pokeController.pokemons[indexpath.row]
-			pokeController.fetchImage(with: pokemon.sprites.front_default, completion: { (result) in
-				guard let image = try? result.get() else { return }
+			let pokemon = pokemonController.pokemons[indexpath.row]
+			pokemonController.fetchImage(with: pokemon.sprites.front_default, completion: { result in
+				guard let image = try? result.get() else {
+					print("Error fetching Image")
+					return
+				}
+				
 				DispatchQueue.main.async {
-					vc.pokeImageView.image = image
+					vc.pokemonImageView.image = image
 				}
 			})
 			vc.pokemon = pokemon
 		}
 	}
 	
-	let pokeController = PokeController()
+	let pokemonController = PokemonController()
 }

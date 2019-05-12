@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PokeController {
+class PokemonController {
 	func loadFromPersistentStore() {
 		let fileManager = FileManager.default
 		

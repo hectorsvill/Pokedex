@@ -195,11 +195,11 @@
                         <outlet property="abilitiesVisiblelable" destination="kH4-2a-Ttg" id="JWs-co-Xgv"/>
                         <outlet property="catchButtonOutlet" destination="Vgn-LL-x4O" id="onF-V9-Pqp"/>
                         <outlet property="idvisibleLabel" destination="VvW-Kt-ysp" id="tuI-Vm-qsV"/>
-                        <outlet property="pokeAbilitiesLabel" destination="ax7-8s-e2J" id="9bK-8W-T0Y"/>
-                        <outlet property="pokeImageView" destination="CW6-2H-fAh" id="TUs-Z9-X91"/>
-                        <outlet property="pokeLabel" destination="8cT-gr-GYX" id="dnx-k3-HKo"/>
-                        <outlet property="pokeTypeLabel" destination="rhk-aG-dAJ" id="vD7-xF-vxx"/>
-                        <outlet property="pokeidLabel" destination="5Ba-uT-06w" id="rhN-TN-cap"/>
+                        <outlet property="pokemonAbilitiesLabel" destination="ax7-8s-e2J" id="9bK-8W-T0Y"/>
+                        <outlet property="pokemonImageView" destination="CW6-2H-fAh" id="TUs-Z9-X91"/>
+                        <outlet property="pokemonLabel" destination="8cT-gr-GYX" id="dnx-k3-HKo"/>
+                        <outlet property="pokemonTypeLabel" destination="rhk-aG-dAJ" id="vD7-xF-vxx"/>
+                        <outlet property="pokemonidLabel" destination="5Ba-uT-06w" id="rhN-TN-cap"/>
                         <outlet property="searchBar" destination="Oaw-bP-622" id="KnH-XF-b00"/>
                         <outlet property="typeVisibleLabel" destination="ETb-79-KlY" id="661-v5-xZt"/>
                     </connections>

@@ -27,14 +27,14 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		guard let text = searchBar.text else { return }
 		setupViews()
 //		pokemon = nil
-		pokeController?.fetchPokemonData(text.lowercased(), completion: { error in
+		pokemonController?.fetchPokemonData(text.lowercased(), completion: { error in
 			if let error = error {
 				print("error fetching \(error)")
 				return
 			} else {
 				
 				DispatchQueue.main.async {
-					self.pokemon = self.pokeController?.currentPokemon
+					self.pokemon = self.pokemonController?.currentPokemon
 					
 				}
 			}
@@ -42,7 +42,7 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 	}
 	@IBAction func catchPokemonButton(_ sender: Any) {
 		guard let pokemon = pokemon else { return }
-		pokeController?.catchPokemon(poke: pokemon)
+		pokemonController?.catchPokemon(poke: pokemon)
 		navigationController?.popViewController(animated: true)
 	}
 	
@@ -57,11 +57,13 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		
 		setupLabels(pokemon)
 		
-		pokeController?.fetchImage(with: pokemon.sprites.front_default, completion: { (result) in
+		pokemonController?.fetchImage(with: pokemon.sprites.front_default, completion: { (result) in
 			if let image = try? result.get() {
 				DispatchQueue.main.async {
-					self.pokeImageView?.image = image
+					self.pokemonImageView?.image = image
 				}
+			} else {
+				print("error: Fetching Image")
 			}
 			
 		})
@@ -72,7 +74,7 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		typeVisibleLabel?.isHidden = false
 		abilitiesVisiblelable?.isHidden = false
 		catchButtonOutlet?.isHidden = false
-		pokeImageView?.isHidden = false
+		pokemonImageView?.isHidden = false
 		
 		var typesStr = " "
 		var abilitiesStr = " "
@@ -83,10 +85,10 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 			abilitiesStr += "\(ability.ability.name), "
 		}
 		
-		pokeLabel?.text = pokemon.name
-		pokeidLabel?.text = String(pokemon.id)
-		pokeTypeLabel?.text = typesStr
-		pokeAbilitiesLabel?.text = abilitiesStr
+		pokemonLabel?.text = pokemon.name
+		pokemonidLabel?.text = String(pokemon.id)
+		pokemonTypeLabel?.text = typesStr
+		pokemonAbilitiesLabel?.text = abilitiesStr
 		
 		print(pokemon.sprites.front_default)
 	}
@@ -96,20 +98,16 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 	@IBOutlet var typeVisibleLabel: UILabel!
 	@IBOutlet var abilitiesVisiblelable: UILabel!
 	
-	@IBOutlet var pokeTypeLabel: UILabel!
-	@IBOutlet var pokeLabel: UILabel!
-	@IBOutlet var pokeidLabel: UILabel!
-	@IBOutlet var pokeAbilitiesLabel: UILabel!
-	@IBOutlet var pokeImageView: UIImageView! {
-		didSet {
-			print("was set!")
-		}
-	}
+	@IBOutlet var pokemonTypeLabel: UILabel!
+	@IBOutlet var pokemonLabel: UILabel!
+	@IBOutlet var pokemonidLabel: UILabel!
+	@IBOutlet var pokemonAbilitiesLabel: UILabel!
+	@IBOutlet var pokemonImageView: UIImageView! 
 	
 	@IBOutlet var searchBar: UISearchBar!
 	
 	
-	var pokeController: PokeController?
+	var pokemonController: PokemonController?
 		
 	var pokemon: Pokemon? {
 		didSet {
