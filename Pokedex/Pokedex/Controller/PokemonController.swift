@@ -10,7 +10,7 @@ import UIKit
 
 class PokemonController {
 	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
-	private let pokemonListBasrUrl = ""
+	private let pokemonListBasrUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=964")!
 	private(set) var pokemons: [Pokemon] = []
 	var pokemonList: [PokemonList] = []
 	
@@ -42,7 +42,7 @@ class PokemonController {
 	}
 	
 	func fetchPokemonList() -> (){
-		let url = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=964")!
+		let url = PokemonListURL!
 		
 		var request = URLRequest(url: url)
 		request.httpMethod = "GET"
@@ -176,8 +176,11 @@ extension PokemonController {
 		
 		do {
 			let encoder = PropertyListEncoder()
+			
 			let data = try encoder.encode(pokemons)
 			try data.write(to: url)
+			
+			
 		} catch {
 			NSLog("Error saving book data: \(error)")
 		}

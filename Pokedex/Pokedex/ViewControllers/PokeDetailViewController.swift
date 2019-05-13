@@ -20,7 +20,13 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		searchBar.delegate = self
 		setupViews()
 		
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search Pokemon", style: .plain, target: self, action: #selector(pushToPokemonList))
+		
     }
+	
+	@objc func pushToPokemonList () {
+		navigationController?.pushViewController(PokemonListTableViewController(), animated: true)
+	}
     
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

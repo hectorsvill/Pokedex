@@ -3,7 +3,7 @@ Pokedex
 
 #
 
-#### Fetch Image from url and retrun pokemon or error
+#### Fetch Image from url and retrun pokemon image or error
 ``` swift
 func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>) -> ()){
 	let imageurl = URL(string: url)!
