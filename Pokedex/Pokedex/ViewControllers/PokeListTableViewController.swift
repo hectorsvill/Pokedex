@@ -17,8 +17,8 @@ class PokeListTableViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		pokemonController.loadFromPersistentStore()
-		pokemonController.fetchPokemonList()
+//		pokemonController.loadFromPersistentStore()
+//		pokemonController.fetchPokemonList()
     }
 
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

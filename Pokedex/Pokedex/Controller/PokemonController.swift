@@ -10,26 +10,16 @@ import UIKit
 
 class PokemonController {
 	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
+	private let pokemonListBasrUrl = ""
 	private(set) var pokemons: [Pokemon] = []
 	var pokemonList: [PokemonList] = []
 	
-	func loadFromPersistentStore() {
+	private var PokemonURL: URL? {
 		let fileManager = FileManager.default
-		
-		guard let url = PokemonListURL,
-			fileManager.fileExists(atPath: url.path) else {
-				print("error: loadFromPersistentStore()")
-				return
-		}
-		
-		do {
-			let data = try Data(contentsOf: url)
-			let decoder = PropertyListDecoder()
-			let decodedPokemon = try decoder.decode([Pokemon].self, from: data)
-			pokemons = decodedPokemon
-		}catch {
-			NSLog("Error loading book data: \(error)")
-		}
+		guard let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+		let fileName = "Pokemon.plist"
+		let document = documents.appendingPathComponent(fileName)
+		return document
 	}
 	
 	private var PokemonListURL: URL? {
@@ -40,17 +30,6 @@ class PokemonController {
 		return document
 	}
 	
-	func saveToPersistentStore() {
-		guard let url = PokemonListURL else { return }
-		
-		do {
-			let encoder = PropertyListEncoder()
-			let data = try encoder.encode(pokemons)
-			try data.write(to: url)
-		} catch {
-			NSLog("Error saving book data: \(error)")
-		}
-	}
 	
 	func catchPokemon(poke: Pokemon) {
 		pokemons.append(poke)
@@ -157,5 +136,49 @@ class PokemonController {
 			
 			completion(.success(image))
 		}.resume()
+	}
+}
+
+enum LoadSaveType {
+	case pokeList
+	case poke
+}
+
+extension PokemonController {
+	
+	func loadFromPersistentStore(decodeType: LoadSaveType) {
+		let fileManager = FileManager.default
+		
+		guard let url = PokemonURL, fileManager.fileExists(atPath: url.path) else {
+			print("error: loadFromPersistentStore()")
+			return
+		}
+		
+		do {
+			let data = try Data(contentsOf: url)
+			let decoder = PropertyListDecoder()
+			if decodeType == .poke {
+				let decodedPokemon = try decoder.decode([Pokemon].self, from: data)
+				pokemons = decodedPokemon
+			} else {
+				let decodedPokemonList = try decoder.decode([PokemonList].self, from: data)
+				pokemonList = decodedPokemonList
+			}
+		}catch {
+			NSLog("Error loading book data: \(error)")
+		}
+	}
+	
+	
+	func saveToPersistentStore() {
+		guard let url = PokemonURL else { return }
+		
+		do {
+			let encoder = PropertyListEncoder()
+			let data = try encoder.encode(pokemons)
+			try data.write(to: url)
+		} catch {
+			NSLog("Error saving book data: \(error)")
+		}
 	}
 }
