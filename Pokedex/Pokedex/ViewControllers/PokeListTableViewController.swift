@@ -17,7 +17,7 @@ class PokeListTableViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-//		pokemonController.loadFromPersistentStore()
+		pokemonController.loadFromPersistentStore(decodeType: .poke)
 //		pokemonController.fetchPokemonList()
     }
 

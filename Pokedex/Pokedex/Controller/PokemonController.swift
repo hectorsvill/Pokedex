@@ -147,9 +147,10 @@ enum LoadSaveType {
 extension PokemonController {
 	
 	func loadFromPersistentStore(decodeType: LoadSaveType) {
+		let urlType = decodeType == .poke ? PokemonURL : PokemonListURL
 		let fileManager = FileManager.default
 		
-		guard let url = PokemonURL, fileManager.fileExists(atPath: url.path) else {
+		guard let url = urlType, fileManager.fileExists(atPath: url.path) else {
 			print("error: loadFromPersistentStore()")
 			return
 		}
