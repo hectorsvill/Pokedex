@@ -25,7 +25,9 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
     }
 	
 	@objc func pushToPokemonList () {
-		navigationController?.pushViewController(PokemonListTableViewController(), animated: true)
+		let vc = PokemonListTableViewController()
+		vc.pokemonController = pokemonController
+		navigationController?.pushViewController(vc, animated: true)
 	}
     
 	

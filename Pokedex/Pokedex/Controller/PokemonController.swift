@@ -33,12 +33,12 @@ class PokemonController {
 	
 	func catchPokemon(poke: Pokemon) {
 		pokemons.append(poke)
-		saveToPersistentStore()
+		saveToPersistentStore(decodeType: .poke)
 	}
 	
 	func deletePokemon(_ index: Int) {
 		pokemons.remove(at: index)
-		saveToPersistentStore()
+		saveToPersistentStore(decodeType: .poke)
 	}
 	
 	func fetchPokemonList() -> (){
@@ -171,14 +171,23 @@ extension PokemonController {
 	}
 	
 	
-	func saveToPersistentStore() {
-		guard let url = PokemonURL else { return }
+	func saveToPersistentStore(decodeType: LoadSaveType) {
+		let urlType = decodeType == .poke ? PokemonURL : PokemonListURL
+		guard let url = urlType else { return }
 		
 		do {
 			let encoder = PropertyListEncoder()
 			
-			let data = try encoder.encode(pokemons)
-			try data.write(to: url)
+			if decodeType == .poke {
+				let data = try encoder.encode(pokemons)
+				try data.write(to: url)
+				
+			} else  {
+				let data = try encoder.encode(pokemons)
+				try data.write(to: url)
+				
+			}
+			
 			
 			
 		} catch {
