@@ -13,8 +13,7 @@ class Pokemon: Codable, Equatable {
 	static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
 		return lhs.id == rhs.id
 	}
-	
-//	let spriteImage: Data
+
 	let sprites: SpriteList
 	let abilities: [Abilities]
 	let types: [Type]

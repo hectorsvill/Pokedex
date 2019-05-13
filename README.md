@@ -3,7 +3,7 @@ Pokedex
 
 #
 
-#### fetch Image from url and retrun  result or error
+#### Fetch Image from url and retrun  result or error
 ``` swift
 func fetchImage(with url: String, completion: @escaping (Result<UIImage, Error>) -> ()){
 	let imageurl = URL(string: url)!
@@ -60,15 +60,16 @@ func fetchPokemonData(_ name: String, completion: @escaping (Result<Pokemon, Err
 		}
 
 		let decoder = JSONDecoder()
-		let pokemon: Pokemon
 		do {
-			pokemon = try decoder.decode(Pokemon.self, from: data)
+			let pokemon = try decoder.decode(Pokemon.self, from: data)
+			completion(.success(pokemon))
 		} catch {
 			print("error decoding pokemon")
 			completion(.failure(error))
 			return
 		}
-		completion(.success(pokemon))
 	}.resume()
 }
 ```
+
+
