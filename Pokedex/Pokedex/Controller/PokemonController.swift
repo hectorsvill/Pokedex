@@ -9,6 +9,10 @@
 import UIKit
 
 class PokemonController {
+	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
+	private(set) var pokemons: [Pokemon] = []
+	var pokemonList: [PokemonList] = []
+	
 	func loadFromPersistentStore() {
 		let fileManager = FileManager.default
 		
@@ -57,6 +61,43 @@ class PokemonController {
 		pokemons.remove(at: index)
 		saveToPersistentStore()
 	}
+	
+	func fetchPokemonList() -> (){
+		let url = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=964")!
+		
+		var request = URLRequest(url: url)
+		request.httpMethod = "GET"
+		print(url)
+		
+		URLSession.shared.dataTask(with: request) { data, response, error in
+			if let response = response as? HTTPURLResponse {
+				print("Fetch Data Response: ", response.statusCode)
+				if response.statusCode == 404 {
+					print("error: Wrong id or name")
+				}
+			}
+			
+			if let error = error {
+				print("error: \(error)")
+				return
+			}
+			
+			guard let data = data else {
+				print("error fetching Data")
+				return
+			}
+			
+			let decoder = JSONDecoder()
+			do {
+				let pokemonList = try decoder.decode(ResulstPokemonList.self, from: data)
+				self.pokemonList = pokemonList.results
+			} catch {
+				print("error decoding pokemonList")
+				return
+			}
+			}.resume()
+	}
+	
 	
 	func fetchPokemonData(_ name: String, completion: @escaping (Result<Pokemon, Error>) -> ()){
 		let url = baseUrl.appendingPathComponent(name)
@@ -108,8 +149,7 @@ class PokemonController {
 				return
 			}
 			
-			guard 	let data = data,
-					let image = UIImage(data: data) else {
+			guard let data = data, let image = UIImage(data: data) else {
 				print("Error Converting data to image.")
 				completion(.failure(NSError()))
 				return
@@ -118,7 +158,4 @@ class PokemonController {
 			completion(.success(image))
 		}.resume()
 	}
-
-	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
-	private(set) var pokemons: [Pokemon] = []
 }
