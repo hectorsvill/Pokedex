@@ -191,6 +191,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oUm-90-8sh"/>
                     </view>
+                    <navigationItem key="navigationItem" id="9Ev-uV-wzl"/>
                     <connections>
                         <outlet property="abilitiesVisiblelable" destination="kH4-2a-Ttg" id="JWs-co-Xgv"/>
                         <outlet property="catchButtonOutlet" destination="Vgn-LL-x4O" id="onF-V9-Pqp"/>
@@ -220,7 +221,7 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PokemonListCell" textLabel="aYl-UQ-dWU" style="IBUITableViewCellStyleDefault" id="vTp-Xy-aIg">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vTp-Xy-aIg" id="1Bc-Am-Ct4">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vTp-Xy-aIg" id="1Bc-Am-Ct4" customClass="UITableViewCell">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>

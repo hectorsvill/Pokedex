@@ -15,17 +15,31 @@ class PokemonListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		guard let pokemonList = pokemonController?.pokemonList else { return }
+		if pokemonList.isEmpty {
+			pokemonController?.fetchPokemonList() { error in
+				if let error = error  {
+					print("error: \(error)")
+				}
+				DispatchQueue.main.async {
+					self.pokemonController?.saveToPersistentStore(decodeType: .pokeList)
+					print(pokemonList.count)
+					self.tableView.reloadData()
+				}
+			}
+		}
+		
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return pokemonController?.pokemonList.count ?? 0
+		return  0
 	}
 
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonListCell", for: indexPath)
-		if let pokemon = pokemonController?.pokemonList[indexPath.row] {
-			cell.textLabel?.text = pokemon.name
-		}
-		return cell
-	}
+//	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
+//		if let pokemon = pokemonController?.pokemonList[indexPath.row] {
+//			cell.textLabel?.text = pokemon.name
+//		}
+//		return cell
+//	}
 }

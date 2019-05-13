@@ -10,9 +10,15 @@ import UIKit
 
 class PokemonController {
 	private let baseUrl = URL(string: "https://pokeapi.co/api/v2/pokemon")!
-	private let pokemonListBasrUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=964")!
+	private let pokemonListBasrUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=100")!
 	private(set) var pokemons: [Pokemon] = []
-	var pokemonList: [PokemonList] = []
+	private(set) var pokemonList: [PokemonList] = []
+	
+	init() {
+		loadFromPersistentStore(decodeType: .poke)
+		loadFromPersistentStore(decodeType: .pokeList)
+
+	}
 	
 	private var PokemonURL: URL? {
 		let fileManager = FileManager.default
@@ -41,8 +47,8 @@ class PokemonController {
 		saveToPersistentStore(decodeType: .poke)
 	}
 	
-	func fetchPokemonList() -> (){
-		let url = PokemonListURL!
+	func fetchPokemonList (completion: @escaping (Error?) -> ()) {
+		let url = URL(string: "https://pokeapi.co/api/v2/pokemon/?limit=964")!
 		
 		var request = URLRequest(url: url)
 		request.httpMethod = "GET"
@@ -58,11 +64,13 @@ class PokemonController {
 			
 			if let error = error {
 				print("error: \(error)")
+				completion(error)
 				return
 			}
 			
 			guard let data = data else {
 				print("error fetching Data")
+				completion(NSError())
 				return
 			}
 			
@@ -70,6 +78,7 @@ class PokemonController {
 			do {
 				let pokemonList = try decoder.decode(ResulstPokemonList.self, from: data)
 				self.pokemonList = pokemonList.results
+				completion(nil)
 			} catch {
 				print("error decoding pokemonList")
 				return
@@ -166,7 +175,7 @@ extension PokemonController {
 				pokemonList = decodedPokemonList
 			}
 		}catch {
-			NSLog("Error loading book data: \(error)")
+			NSLog("Error loading pokemon/pokemonList data: \(error)")
 		}
 	}
 	
@@ -183,15 +192,13 @@ extension PokemonController {
 				try data.write(to: url)
 				
 			} else  {
-				let data = try encoder.encode(pokemons)
+				let data = try encoder.encode(pokemonList)
 				try data.write(to: url)
 				
 			}
 			
-			
-			
 		} catch {
-			NSLog("Error saving book data: \(error)")
+			NSLog("Error saving pokemon/pokemonList data: \(error)")
 		}
 	}
 }

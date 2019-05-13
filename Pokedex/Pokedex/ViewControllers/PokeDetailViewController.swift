@@ -20,7 +20,7 @@ class PokeDetailViewController: UIViewController, UISearchBarDelegate {
 		searchBar.delegate = self
 		setupViews()
 		
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search Pokemon", style: .plain, target: self, action: #selector(pushToPokemonList))
+		//navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search Pokemon", style: .plain, target: self, action: #selector(pushToPokemonList))
 		
     }
 	

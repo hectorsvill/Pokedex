@@ -10,6 +10,8 @@ import UIKit
 
 class PokeListTableViewController: UITableViewController {
 
+	let pokemonController = PokemonController()
+	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		tableView.reloadData()
@@ -17,8 +19,6 @@ class PokeListTableViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		pokemonController.loadFromPersistentStore(decodeType: .poke)
-//		pokemonController.fetchPokemonList()
     }
 
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,5 +64,4 @@ class PokeListTableViewController: UITableViewController {
 		}
 	}
 	
-	let pokemonController = PokemonController()
 }
